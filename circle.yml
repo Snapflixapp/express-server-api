@@ -10,4 +10,5 @@ deployment:
   production:
     branch: master
     commands:
-      - eb deploy
+      - sudo apt-get install python-dev
+      - eb deploy --profile default

@@ -1,6 +1,6 @@
 dependencies:
   pre:
-    - sudo pip install awsebcli
+    - pip install awsebcli
 test:
   override:
     - mocha test --reporter mocha-junit-reporter:

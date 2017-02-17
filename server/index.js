@@ -10,7 +10,7 @@ require('./middleware/middleware')(app)
 
 app.get('/', (req, res) => {
   res.status(200)
-  res.send('Hello, Amazon Elastic Beanstalk!')
+  res.send('Hello, CircleCI!')
 })
 
 app.listen(port, () => {

@@ -1,6 +1,11 @@
 dependencies:
   pre:
     - sudo pip install awsebcli
+test:
+  override:
+    - mocha test --reporter mocha-junit-reporter:
+        environment:
+          MOCHA_FILE: $CIRCLE_TEST_REPORTS/junit/test-results.xml
 deployment:
   production:
     branch: master

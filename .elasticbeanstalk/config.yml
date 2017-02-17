@@ -1,10 +1,8 @@
 branch-defaults:
-  setup:
+  master:
     environment: express-server-api-dev
-    group_suffix: null
 global:
   application_name: express-server-api
-  branch: null
   default_ec2_keyname: null
   default_platform: Node.js
   default_region: us-west-1

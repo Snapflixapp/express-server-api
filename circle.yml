@@ -11,4 +11,4 @@ deployment:
     branch: master
     commands:
       - sudo apt-get install python-dev
-      - eb deploy express-server-api-dev
+      - eb deploy --profile default

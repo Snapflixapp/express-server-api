@@ -1,5 +1,8 @@
+
 const express = require('express')
 const app = express()
+
+require('dotenv').config() // https://www.npmjs.com/package/dotenv
 
 const port = process.env.PORT || 8080
 

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Snapflixapp/express-server-api#readme",
   "dependencies": {
     "body-parser": "^1.16.1",
+    "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "morgan": "^1.8.1"
   },

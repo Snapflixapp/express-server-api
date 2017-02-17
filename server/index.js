@@ -6,7 +6,7 @@ const port = process.env.PORT || 8080
 require('./middleware/middleware')(app)
 
 app.get('/', (req, res) => {
-  res.send('Hello, World!')
+  res.send('Hello, Amazon Elastic Beanstalk!')
 })
 
 app.listen(port, () => {

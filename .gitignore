@@ -1,6 +1,5 @@
 .env
 .DS_Store
-.elasticbeanstalk/
 
 # Logs
 logs
@@ -39,8 +38,3 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml

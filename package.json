@@ -1,0 +1,34 @@
+{
+  "name": "express-server-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/",
+  "scripts": {
+    "start": "node server/",
+    "test": "standard && mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Snapflixapp/express-server-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Snapflixapp/express-server-api/issues"
+  },
+  "homepage": "https://github.com/Snapflixapp/express-server-api#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1",
+    "morgan": "^1.8.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "mocha-junit-reporter": "^1.13.0",
+    "nodemon": "^1.11.0",
+    "standard": "^8.6.0",
+    "supertest": "^3.0.0"
+  }
+}

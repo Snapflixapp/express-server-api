@@ -12,7 +12,6 @@ describe('API Tests', function () {
       .get('/')
       .end(function (err, res) {
         if (err) throw err
-        expect(res).to.be.text
         expect(res.statusCode).to.equal(200)
         done()
       })

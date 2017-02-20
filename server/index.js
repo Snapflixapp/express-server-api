@@ -14,18 +14,19 @@ var session = driver.session()
 
 app.get('/', (req, res) => {
   res.status(200)
-  session
-  .run("MATCH (n:Person) RETURN n LIMIT 25")
-  .then(function(result) {
-    var usersArr = []
-    result.records.forEach(function(record) {
-      usersArr.push({
-        id: record._fields[0].identity.low,
-        name: record._fields[0].properties.name
-      })
-      console.log(record._fields[0].properties)
-    })
-    res.send('index', {users: usersArr})
+  // session
+  // .run("MATCH (n:Person) RETURN n LIMIT 25")
+  // .then(function(result) {
+  //   var usersArr = []
+  //   result.records.forEach(function(record) {
+  //     usersArr.push({
+  //       id: record._fields[0].identity.low,
+  //       name: record._fields[0].properties.name
+  //     })
+  //     console.log(record._fields[0].properties)
+  //   })
+  //   console.log({users: usersArr})
+    res.send('hello from jasmine!')
   })
   .catch(function(err) {
     console.log(err)

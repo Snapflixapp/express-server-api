@@ -26,11 +26,11 @@ app.get('/', (req, res) => {
   //     console.log(record._fields[0].properties)
   //   })
   //   console.log({users: usersArr})
-    res.send('hello from jasmine!')
-  })
-  .catch(function(err) {
-    console.log(err)
-  })
+  res.send('hello from jasmine!')
+  // })
+  // .catch(function(err) {
+  //   console.log(err)
+  // })
 })
 
 app.listen(port, () => {

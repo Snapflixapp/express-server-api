@@ -11,12 +11,12 @@ dependencies:
 
 test:
   post:
-    - docker run -d -p 3000:3000 -e "SECRET_KEY_BASE=abcd1234" circleci/hello:$CIRCLE_SHA1; sleep 10
-    - curl --retry 10 --retry-delay 5 -v http://localhost:3000
+    - docker run -d -p 8080:8080 -e "SECRET_KEY_BASE=abcd1234" michaelmerrill/snapflix-api:$CIRCLE_SHA1; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8080
 
 deployment:
   elasticbeanstalk:
-    branch: master
+    branch: docker
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - ./deploy.sh $CIRCLE_SHA1

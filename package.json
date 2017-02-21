@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/Snapflixapp/express-server-api#readme",
   "dependencies": {
-    "bcrypt": "^1.0.2",
     "body-parser": "^1.16.1",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
@@ -26,7 +25,7 @@
     "lodash": "^4.17.4",
     "morgan": "^1.8.1",
     "neo4j-driver": "^1.1.0",
-    "node-uuid": "^1.4.7"
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

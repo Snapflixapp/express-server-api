@@ -1,24 +1,21 @@
 'use strict'
 
 const _ = require('lodash')
-const db = require('../db/')
-// const router = require('express').Router()
-const Users = require('./usersController')
+const db = require('../db')
+const Users = require('../models/users')
 const writeResponse = require('../helpers').writeResponse
+const writeError = require('../helpers').writeError
 
 exports.register = (req, res, next) => {
   let username = _.get(req.body, 'username')
   let password = _.get(req.body, 'password')
 
   if (!username || !password) {
-    res.status(400).send('You need a username and password')
-    return
+    return writeError(res, {detail: 'Invalid username or password`'}, 400)
   }
 
   Users.register(db.getSession(req), username, password)
-    .then((token) => {
-      writeResponse(res, {token: token}, 201)
-    })
+    .then(token => writeResponse(res, {token: token}, 201))
     .catch(next)
 }
 
@@ -27,14 +24,11 @@ exports.login = (req, res, next) => {
   var password = _.get(req.body, 'password')
 
   if (!username || !password) {
-    res.status(400).send('You need a username and password')
-    return
+    return writeError(res, {detail: 'Invalid username or password`'}, 400)
   }
 
   Users.login(db.getSession(req), username, password)
-    .then((token) => {
-      writeResponse(res, {token: token}, 201)
-    })
+    .then(token => writeResponse(res, {token: token}, 201))
     .catch(next)
 }
 

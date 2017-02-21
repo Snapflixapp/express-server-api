@@ -10,6 +10,10 @@ const port = process.env.PORT || 8080
 
 require('./middleware/middleware')(app)
 
+app.get('/', function (req, res) {
+  res.send('Hello, World')
+})
+
 app.use(routes)
 
 app.use(function (err, req, res, next) {

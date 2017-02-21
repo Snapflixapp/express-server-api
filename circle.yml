@@ -1,14 +1,22 @@
+machine:
+  node:
+    version: 7.5.0
+  services:
+    - docker
+
 dependencies:
   pre:
-    - pip install awsebcli
+    - pip install awscli
+    - docker build --rm=false -t circleci/hello:$CIRCLE_SHA1 .
+
 test:
-  override:
-    - mocha test --reporter mocha-junit-reporter:
-        environment:
-          MOCHA_FILE: $CIRCLE_TEST_REPORTS/junit/test-results.xml
+  post:
+    - docker run -d -p 3000:3000 -e "SECRET_KEY_BASE=abcd1234" circleci/hello:$CIRCLE_SHA1; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:3000
+
 deployment:
-  production:
+  elasticbeanstalk:
     branch: master
     commands:
-      - sudo apt-get install python-dev
-      - eb deploy --profile default
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - ./deploy.sh $CIRCLE_SHA1

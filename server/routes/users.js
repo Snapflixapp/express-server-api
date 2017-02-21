@@ -11,7 +11,7 @@ exports.register = (req, res, next) => {
   let password = _.get(req.body, 'password')
 
   if (!username || !password) {
-    return writeError(res, {detail: 'Invalid username or password`'}, 400)
+    return writeError(res, {detail: 'Invalid username or password'}, 400)
   }
 
   Users.register(db.getSession(req), username, password)
@@ -24,7 +24,7 @@ exports.login = (req, res, next) => {
   var password = _.get(req.body, 'password')
 
   if (!username || !password) {
-    return writeError(res, {detail: 'Invalid username or password`'}, 400)
+    return writeError(res, {detail: 'Invalid username or password'}, 400)
   }
 
   Users.login(db.getSession(req), username, password)
@@ -32,6 +32,21 @@ exports.login = (req, res, next) => {
     .catch(next)
 }
 
-exports.me = (req, res, next) => {
-  console.log('Req: ', req)
+exports.authenticate = (req, res, next) => {
+  let user = req.user
+
+  if (!user) {
+    return writeError(res, {detail: req}, 400)
+  }
+
+  Users.me(db.getSession(req), user._id)
+    .then((user) => {
+      writeResponse(res, {
+        user: {
+          _id: user.id,
+          username: user.username
+        }
+      }, 200)
+    })
+    .catch(next)
 }

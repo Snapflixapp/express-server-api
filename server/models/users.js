@@ -25,7 +25,7 @@ exports.register = (session, username, password) => {
     })
 }
 
-exports.login = function (session, username, password) {
+exports.login = (session, username, password) => {
   return session.run('MATCH (user:User {username: {username}}) RETURN user', {username: username})
     .then(results => {
       if (_.isEmpty(results.records)) {
@@ -41,6 +41,17 @@ exports.login = function (session, username, password) {
   )
 }
 
+exports.me = (session, id) => {
+  return session.run('MATCH (user:User {id: {id}}) RETURN user', {id: id})
+    .then(results => {
+      if (_.isEmpty(results.records)) {
+        throw new Error({username: 'User id does not exist', status: 400})
+      } else {
+        return _.get(results.records[0].get('user'), 'properties')
+      }
+    })
+}
+
 const hashPassword = (username, password) => {
   let s = username + ':' + password
   return crypto.createHash('sha256').update(s).digest('hex')
@@ -48,12 +59,8 @@ const hashPassword = (username, password) => {
 
 // util method to sign tokens on register and login
 const signToken = (user) => {
-  return jwt.sign(
-    {
-      _id: user.id,
-      _name: user.username
-    },
-    process.env.JWT_SECRET,
-    {expiresIn: '1h'}
-  )
+  return jwt.sign({
+    _id: user.id,
+    username: user.username
+  }, process.env.JWT_SECRET, { expiresIn: '1h' })
 }

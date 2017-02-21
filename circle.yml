@@ -14,4 +14,4 @@ deployment:
     branch: docker
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - ./deploy.sh $CIRCLE_SHA1
+      - sh ./deploy.sh $CIRCLE_SHA1

@@ -6,14 +6,19 @@ var request = require('supertest')
 
 var expect = chai.expect
 
-describe('API Tests', function () {
-  it('should say hello', function (done) {
+describe('Login', function () {
+  it('should create session for valid user', function (done) {
     request(app)
-      .get('/')
-      .end(function (err, res) {
-        if (err) throw err
-        expect(res.statusCode).to.equal(200)
-        done()
+      .post('/login')
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .send({ username: 'username', password: 'password' })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect(function (response) {
+        expect(response.body).not.to.be.empty
+        expect(response.body).to.be.an('object')
       })
+      .end(done)
   })
 })

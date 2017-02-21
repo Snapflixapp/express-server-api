@@ -28,7 +28,7 @@ exports.login = (req, res, next) => {
   }
 
   Users.login(db.getSession(req), username, password)
-    .then(token => writeResponse(res, {token: token}, 201))
+    .then(token => writeResponse(res, {token: token}, 200))
     .catch(next)
 }
 

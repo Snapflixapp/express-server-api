@@ -4,7 +4,7 @@ const _ = require('lodash')
 const db = require('../db/')
 // const router = require('express').Router()
 const Users = require('./usersController')
-const { writeResponse } = require('../helpers')
+const writeResponse = require('../helpers').writeResponse
 
 exports.register = (req, res, next) => {
   let username = _.get(req.body, 'username')

@@ -10,7 +10,7 @@ const { writeError } = require('./utils')
 
 const port = process.env.PORT || 3000
 
-// require('./middleware/middleware')(app)
+require('./middleware')(app)
 
 app.get('/', (req, res) => {
   res.send('Hello, World')

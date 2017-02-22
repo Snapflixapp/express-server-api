@@ -12,7 +12,7 @@
   "Volumes": [
     {
       "HostDirectory": "/var/app/current",
-      "ContainerDirectory": "/usr/src/app"
+      "ContainerDirectory": "/home/app/snapflix"
     }
   ]
 }

@@ -1,6 +1,6 @@
 snapflix:
   build: .
-  command: node_modules/.bin/nodemon index.js
+  command: node_modules/.bin/nodemon server/index.js
   environment:
     NODE_ENV: development
   ports:

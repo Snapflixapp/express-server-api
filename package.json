@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Snapflixapp/express-server-api.git"
@@ -33,5 +32,9 @@
     "nodemon": "^1.11.0",
     "standard": "^8.6.0",
     "supertest": "^3.0.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
 }

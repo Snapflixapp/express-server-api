@@ -4,15 +4,15 @@ RUN useradd --user-group --create-home --shell /bin/false app
 
 ENV HOME=/home/app
 
-COPY package.json npm-shrinkwrap.json $HOME/chat/
+COPY package.json npm-shrinkwrap.json $HOME/snapflix/
 RUN chown -R app:app $HOME/*
 
 USER app
-WORKDIR $HOME/chat
+WORKDIR $HOME/snapflix
 RUN npm install
 
 USER root
-COPY . $HOME/chat
+COPY . $HOME/snapflix
 RUN chown -R app:app $HOME/*
 USER app
 

@@ -2,8 +2,10 @@
   "name": "express-server-api",
   "version": "1.0.0",
   "description": "",
-  "main": "server/index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node index",
+    "test": "standard"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Snapflixapp/express-server-api.git"
@@ -14,27 +16,11 @@
     "url": "https://github.com/Snapflixapp/express-server-api/issues"
   },
   "homepage": "https://github.com/Snapflixapp/express-server-api#readme",
+  "keywords": [],
   "dependencies": {
-    "body-parser": "^1.16.1",
-    "dotenv": "^4.0.0",
-    "express": "^4.14.1",
-    "express-jwt": "^5.1.0",
-    "jsonwebtoken": "^7.3.0",
-    "lodash": "^4.17.4",
-    "morgan": "^1.8.1",
-    "neo4j-driver": "^1.1.0",
-    "uuid": "^3.0.1"
+    "express": "^4.14.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "mocha-junit-reporter": "^1.13.0",
-    "nodemon": "^1.11.0",
-    "standard": "^8.6.0",
-    "supertest": "^3.0.0"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "keywords": []
+    "standard": "^8.6.0"
+  }
 }

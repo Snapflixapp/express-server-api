@@ -1,19 +1,15 @@
 FROM node:boron
 
-RUN useradd --user-group --create-home --shell /bin/false app
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-ENV HOME=/var/app
-
-COPY package.json npm-shrinkwrap.json $HOME/snapflix/
-RUN chown -R app:app $HOME/*
-
-USER app
-WORKDIR $HOME/snapflix
+# Install app dependencies
+COPY package.json /usr/src/app/
 RUN npm install
 
-USER root
-COPY . $HOME/snapflix
-RUN chown -R app:app $HOME/*
-USER app
+# Bundle app source
+COPY . /usr/src/app
 
-CMD ["node", "/server/index.js"]
+EXPOSE 3000
+CMD [ "npm", "start" ]

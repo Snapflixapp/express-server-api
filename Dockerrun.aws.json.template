@@ -11,8 +11,9 @@
   ],
   "Volumes": [
     {
-      "HostDirectory": "/var/app/current",
-      "ContainerDirectory": "/home/app/snapflix"
+      "ContainerDirectory": "/var/app",
+      "HostDirectory": "/var/app"
     }
-  ]
+  ],
+  "Logging": "/var/eb_log"
 }

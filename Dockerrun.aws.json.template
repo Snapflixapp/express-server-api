@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "michaelmerrill/snapflixapp-api:<TAG>",
+    "Name": "michaelmerrill/snapflix:<TAG>",
     "Update": "true"
   },
   "Ports": [

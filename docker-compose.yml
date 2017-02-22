@@ -1,0 +1,10 @@
+snapflix:
+  build: .
+  command: node_modules/.bin/nodemon index.js
+  environment:
+    NODE_ENV: development
+  ports:
+    - '3000:3000'
+  volumes:
+    - .:/home/app/snapflix
+    - /home/app/snapflix/node_modules

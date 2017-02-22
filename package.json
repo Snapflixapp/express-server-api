@@ -2,11 +2,8 @@
   "name": "express-server-api",
   "version": "1.0.0",
   "description": "",
-  "main": "server/",
+  "main": "server/index.js",
   "scripts": {
-    "start": "node server/",
-    "start:prod": "NODE_ENV=production node server/",
-    "test": "standard && mocha"
   },
   "repository": {
     "type": "git",

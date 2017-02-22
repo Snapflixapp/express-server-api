@@ -1,15 +1,19 @@
 FROM node:boron
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN useradd --user-group --create-home --shell /bin/false app
 
-# Install app dependencies
-COPY package.json /usr/src/app/
+ENV HOME=/home/app
+
+COPY package.json npm-shrinkwrap.json $HOME/chat/
+RUN chown -R app:app $HOME/*
+
+USER app
+WORKDIR $HOME/chat
 RUN npm install
 
-# Bundle app source
-COPY . /usr/src/app
+USER root
+COPY . $HOME/chat
+RUN chown -R app:app $HOME/*
+USER app
 
-EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD ["node", "server/index.js"]

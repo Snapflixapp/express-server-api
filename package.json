@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node server",
-    "start:dev": "nodemon server",
+    "start": "nodemon server",
+    "start:prod": "node server",
     "test": "standard"
   },
   "repository": {

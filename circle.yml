@@ -9,7 +9,7 @@ dependencies:
 
 deployment:
   elasticbeanstalk:
-    branch: auth-routes
+    branch: master
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - sh ./deploy.sh $CIRCLE_SHA1

@@ -19,8 +19,8 @@ app.get('/', (req, res) => {
 app.use(routes)
 
 app.use((err, req, res, next) => {
-  if (err && err.status) {
-    writeError(res, err)
+  if (err) {
+    writeError(res, err.message)
   } else {
     next(err)
   }

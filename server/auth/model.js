@@ -9,7 +9,7 @@ exports.register = (session, username, password) => {
   return session.run('MATCH (user:User {username: {username}}) RETURN user', {username: username})
     .then(results => {
       if (!isEmpty(results.records)) {
-        throw new Error({username: 'Username already in use', status: 400})
+        throw new Error('Username already in use')
       } else {
         return session.run('CREATE (user:User {id: {id}, username: {username}, password: {password}}) RETURN user',
           {
@@ -29,27 +29,16 @@ exports.login = (session, username, password) => {
   return session.run('MATCH (user:User {username: {username}}) RETURN user', {username: username})
     .then(results => {
       if (isEmpty(results.records)) {
-        throw new Error({username: 'Username does not exist', status: 400})
+        throw new Error('Incorrect username or password')
       } else {
         const dbUser = get(results.records[0].get('user'), 'properties')
         if (dbUser.password !== hashPassword(username, password)) {
-          throw new Error({password: 'Password is incorrect', status: 400})
+          throw new Error('Incorrect username or password')
         }
         return signToken(dbUser)
       }
     }
   )
-}
-
-exports.me = (session, id) => {
-  return session.run('MATCH (user:User {id: {id}}) RETURN user', {id: id})
-    .then(results => {
-      if (isEmpty(results.records)) {
-        throw new Error({username: 'User id does not exist', status: 400})
-      } else {
-        return get(results.records[0].get('user'), 'properties')
-      }
-    })
 }
 
 const hashPassword = (username, password) => {

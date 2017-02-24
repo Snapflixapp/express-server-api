@@ -1,9 +1,9 @@
 const router = require('express').Router()
 
-const user = require('../user')
+const auth = require('../auth')
+const s3 = require('../s3')
 
-router.use('/login', user.login)
-router.use('/register', user.register)
-router.use('/authenticate', user.authenticate)
+router.use('/auth', auth)
+router.use('/s3', s3)
 
 module.exports = router

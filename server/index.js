@@ -20,9 +20,9 @@ app.use(routes)
 
 app.use((err, req, res, next) => {
   if (err) {
-    writeError(res, err.message)
+    writeError(res, err)
   } else {
-    next(err)
+    next()
   }
 })
 

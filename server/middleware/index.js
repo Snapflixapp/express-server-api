@@ -3,7 +3,7 @@ const morgan = require('morgan')
 const jwt = require('express-jwt')
 const cors = require('cors')
 
-const whitelist = [/\.snapflixapp\.com$/, 'localhost:3000', 'localhost:8080']
+const whitelist = ['snapflixapp.com', 'staging.snapflixapp.com', 'localhost:3000', 'localhost:8080']
 const corsOptions = {
   origin: (origin, callback) => {
     const originIsWhitelisted = whitelist.indexOf(origin) !== -1

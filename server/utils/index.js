@@ -6,7 +6,9 @@ exports.writeResponse = (res, response, status) => {
 
 exports.writeError = (res, error, status) => {
   if (error.name === 'UnauthorizedError') {
-    res.redirect(303, 'https://staging.snapflixapp.com/signin') // TODO: staging vs. prod
+    const signin = process.env.NODE_ENV === 'production'
+    ? 'https://snapflixapp.com/signin' : 'https://staging.snapflixapp.com/signin'
+    res.redirect(303, signin)
   } else {
     res.status(400).send(error)
   }

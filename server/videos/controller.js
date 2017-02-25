@@ -1,7 +1,11 @@
 'use strict'
 
+const { all } = require('./model')
+const db = require('../db')
 const { writeResponse } = require('../utils')
 
-exports.list = (req, res, next) => {
-  writeResponse(res, {message: 'Inside video list'})
+exports.all = (req, res, next) => {
+  all(db.getSession(req))
+    .then(videos => writeResponse(res, videos, 200))
+    .catch(next)
 }

@@ -10,7 +10,7 @@ exports.params = (req, res, next) => {
   let password = get(req.body, 'password')
 
   if (!username || !password) {
-    return writeError(res, {messages: 'Invalid username or password'}, 400)
+    return writeError(res, {messages: 'Must provide a username and password'}, 400)
   }
 
   req.username = username
@@ -20,12 +20,12 @@ exports.params = (req, res, next) => {
 
 exports.register = (req, res, next) => {
   register(db.getSession(req), req.username, req.password)
-    .then(token => writeResponse(res, {token: token}, 201))
+    .then(token => writeResponse(res, { token: token }, 201))
     .catch(next)
 }
 
 exports.login = (req, res, next) => {
   login(db.getSession(req), req.username, req.password)
-    .then(token => writeResponse(res, {token: token}, 200))
+    .then(token => writeResponse(res, { token: token }, 200))
     .catch(next)
 }

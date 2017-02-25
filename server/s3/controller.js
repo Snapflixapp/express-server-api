@@ -2,9 +2,11 @@
 
 const aws = require('aws-sdk')
 const s3 = new aws.S3()
+const uuid = require('uuid')
 const { writeResponse } = require('../utils')
 
-const bucketName = 'snapflix-videos'
+const inputBucket = 'snapflix-videos-raw'
+const outputBucket = 'snapflix-videos-mp4'
 const ACL = 'public-read'
 
 aws.config.update({
@@ -13,14 +15,17 @@ aws.config.update({
   'region': 'us-west-1'
 })
 
+// Creates a signed url from AWS S3 for video
+// Naming format: user.id/video.id.ext
+// e.g. 123456abc/abc123456
 exports.sign = (req, res, next) => {
-  const filename = req.query.objectName
+  const fileId = uuid.v4()
+  const userId = req.user._id
   const mimeType = req.query.contentType
-  const ext = '.' + findType(mimeType)
-  const filekey = filename + ext
+  const filekey = `${userId}/${fileId}`
 
   const params = {
-    Bucket: bucketName,
+    Bucket: inputBucket,
     Key: filekey,
     ContentType: mimeType,
     ACL: ACL
@@ -33,14 +38,14 @@ exports.sign = (req, res, next) => {
 
     const data = {
       signedUrl: url,
-      publicUrl: `https://s3.amazon.com/${bucketName}/${filekey}`,
-      filename: filename
+      publicUrl: `https://s3.amazon.com/${outputBucket}/${filekey}.mp4`,
+      filename: fileId
     }
     writeResponse(res, data, 201)
   })
 }
 
-const findType = (string) => {
-  let n = string.lastIndexOf('/')
-  return string.substring(n + 1)
-}
+// const findType = (string) => {
+//   let n = string.lastIndexOf('/')
+//   return string.substring(n + 1)
+// }

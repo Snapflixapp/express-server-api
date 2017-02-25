@@ -1,6 +1,5 @@
 'use strict'
 
-// const { extend } = require('lodash')
 const { get, isEmpty } = require('lodash')
 
 exports.me = (session, id) => {
@@ -13,12 +12,3 @@ exports.me = (session, id) => {
       }
     })
 }
-
-// const User = (_node) => {
-//   extend(this, {
-//     id: _node.properties['id'],
-//     username: _node.properties['username']
-//   })
-// }
-//
-// module.exports = User

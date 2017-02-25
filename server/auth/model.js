@@ -29,11 +29,11 @@ exports.login = (session, username, password) => {
   return session.run('MATCH (user:User {username: {username}}) RETURN user', {username: username})
     .then(results => {
       if (isEmpty(results.records)) {
-        throw new Error('Incorrect username or password')
+        throw new Error('Invalid username or password')
       } else {
         const dbUser = get(results.records[0].get('user'), 'properties')
         if (dbUser.password !== hashPassword(username, password)) {
-          throw new Error('Incorrect username or password')
+          throw new Error('Invalid username or password')
         }
         return signToken(dbUser)
       }

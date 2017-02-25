@@ -10,15 +10,15 @@ exports.params = (req, res, next) => {
   let password = get(req.body, 'password')
 
   if (!username || !password) {
-    return writeError(res, {messages: 'Must provide a username and password'}, 400)
+    return writeError(res, new Error('Must provide a username and password'), 400)
   }
 
   if (username.length <= 4) {
-    return writeError(res, {messages: 'Username must be greater than 4 characters'}, 400)
+    return writeError(res, new Error('Username must be greater than 4 characters'), 400)
   }
 
   if (password.length <= 4) {
-    return writeError(res, {messages: 'Password must be greater than 4 characters'}, 400)
+    return writeError(res, new Error('Password must be greater than 4 characters'), 400)
   }
 
   req.username = username

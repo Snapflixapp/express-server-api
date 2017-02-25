@@ -2,6 +2,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const jwt = require('express-jwt')
 const cors = require('cors')
+const { writeResponse } = require('../utils')
 
 const whitelist = ['snapflixapp.com', 'staging.snapflixapp.com', 'localhost:3000', 'localhost:8080']
 const corsOptions = {
@@ -14,8 +15,9 @@ const corsOptions = {
 module.exports = (app) => {
   // really dumb work around to fix this issue: https://github.com/expressjs/cors/issues/71
   app.use((req, res, next) => {
-    req.headers.origin = req.headers.origin || req.headers.host
-    next()
+    writeResponse(res, { origin: req.headers.origin, host: req.headers.host }, 200)
+    // req.headers.origin = req.headers.origin || req.headers.host
+    // next()
   })
   app.use(cors(corsOptions)) // https://github.com/expressjs/cors
   app.use(bodyParser.urlencoded({ extended: true })) // https://github.com/expressjs/body-parser

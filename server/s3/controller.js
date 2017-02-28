@@ -16,14 +16,14 @@ aws.config.update({
 
 // Creates a signed url from AWS S3 for video
 // Naming format: user.id/video.id.ext
-// e.g. 123456abc/abc123456
+// e.g. 123456abc/abc123456.webm
 exports.sign = (req, res, next) => {
   const fileId = uuid.v4()
   const userId = req.user._id
-  // const fileName = req.query.fileName
+  const fileName = req.query.fileName
   const mimeType = req.query.contentType
   const ext = findType(mimeType)
-  const filekey = `${userId}/${fileId}`
+  const filekey = `${userId}/${fileId}.${ext}`
 
   const params = {
     Bucket: inputBucket,

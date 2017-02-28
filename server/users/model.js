@@ -1,6 +1,7 @@
 'use strict'
 
-const { get, isEmpty } = require('lodash')
+const { isEmpty } = require('lodash')
+const User = require('../db/user')
 
 exports.me = (session, id) => {
   return session.run('MATCH (user:User {id: {id}}) RETURN user', {id: id})
@@ -8,7 +9,7 @@ exports.me = (session, id) => {
       if (isEmpty(results.records)) {
         throw new Error('User id does not exist')
       } else {
-        return get(results.records[0].get('user'), 'properties')
+        return new User(results.records[0].get('user'))
       }
     })
 }

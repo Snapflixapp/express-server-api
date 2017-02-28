@@ -2,7 +2,9 @@
 
 const aws = require('aws-sdk')
 const s3 = new aws.S3()
+const db = require('../db')
 const uuid = require('uuid')
+const { store } = require('./model')
 const { writeResponse } = require('../utils')
 
 const inputBucket = 'snapflix-videos-raw'
@@ -32,18 +34,22 @@ exports.sign = (req, res, next) => {
     ACL: ACL
   }
 
+  // TODO: wrap this into a promise
   s3.getSignedUrl('putObject', params, (err, url) => {
     if (err) {
       throw new Error(err.message)
     }
 
-    // TODO: Save video to database with id, title, and user_id, processing: true
+    store(db.getSession(req), req.user._id, fileId, fileName)
+      .then((video) => {
+        const data = {
+          signedUrl: url,
+          video: video
+        }
 
-    const data = {
-      signedUrl: url
-    }
-
-    writeResponse(res, data, 201)
+        writeResponse(res, data, 201)
+      })
+      .catch(next)
   })
 }
 

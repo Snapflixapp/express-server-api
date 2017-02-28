@@ -1,5 +1,6 @@
 'use strict'
 
+// TODO: set up environment for 'staging'
 const baseUrl = process.env.NODE_ENV === 'production' ? 'https://snapflixapp.com' : 'http://localhost:8080'
 
 exports.writeResponse = (res, response, status) => {

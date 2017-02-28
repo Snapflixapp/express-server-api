@@ -2,7 +2,7 @@
 
 const { extend } = require('lodash')
 
-const User = (_node) => {
+const User = function (_node) {
   extend(this, {
     id: _node.properties['id'],
     username: _node.properties['username']

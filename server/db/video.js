@@ -2,12 +2,11 @@
 
 const { extend } = require('lodash')
 
-const Video = (_node) => {
+const Video = function (_node) {
   extend(this, {
     id: _node.properties['id'],
-    title: _node.properties['title'],
-    videoUrl: _node.properties['videoUrl'],
-    thumbnailUrl: _node.properties['thumbnailUrl']
+    processing: _node.properties['processing'],
+    title: _node.properties['title']
   })
 }
 

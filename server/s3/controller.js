@@ -6,7 +6,6 @@ const uuid = require('uuid')
 const { writeResponse } = require('../utils')
 
 const inputBucket = 'snapflix-videos-raw'
-const outputBucket = 'snapflix-videos-mp4'
 const ACL = 'public-read'
 
 aws.config.update({
@@ -21,7 +20,9 @@ aws.config.update({
 exports.sign = (req, res, next) => {
   const fileId = uuid.v4()
   const userId = req.user._id
+  // const fileName = req.query.fileName
   const mimeType = req.query.contentType
+  const ext = findType(mimeType)
   const filekey = `${userId}/${fileId}`
 
   const params = {
@@ -36,16 +37,17 @@ exports.sign = (req, res, next) => {
       throw new Error(err.message)
     }
 
+    // TODO: Save video to database with id, title, and user_id, processing: true
+
     const data = {
-      signedUrl: url,
-      publicUrl: `https://s3.amazon.com/${outputBucket}/${filekey}.mp4`,
-      filename: fileId
+      signedUrl: url
     }
+
     writeResponse(res, data, 201)
   })
 }
 
-// const findType = (string) => {
-//   let n = string.lastIndexOf('/')
-//   return string.substring(n + 1)
-// }
+const findType = (string) => {
+  let n = string.lastIndexOf('/')
+  return string.substring(n + 1)
+}

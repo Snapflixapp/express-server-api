@@ -11,9 +11,9 @@ const inputBucket = 'snapflix-videos-raw'
 const ACL = 'public-read'
 
 aws.config.update({
-  'accessKeyId': process.env.AWS_ACCESS_KEY_ID,
-  'secretAccessKey': process.env.AWS_SECRET_ACCESS_KEY,
-  'region': 'us-west-1'
+  // 'accessKeyId': process.env.AWS_ACCESS_KEY_ID,
+  // 'secretAccessKey': process.env.AWS_SECRET_ACCESS_KEY,
+  // 'region': 'us-west-1'
 })
 
 // Creates a signed url from AWS S3 for video

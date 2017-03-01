@@ -13,7 +13,8 @@ const port = process.env.PORT || 3000
 require('./middleware')(app)
 
 app.get('/', (req, res) => {
-  res.redirect(301, 'https://snapflixapp.com')
+  // res.redirect(301, 'https://snapflixapp.com')
+  res.send('Hello, World!')
 })
 
 app.use(routes)

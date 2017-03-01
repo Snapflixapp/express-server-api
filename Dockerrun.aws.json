@@ -1,14 +1,15 @@
 {
   "AWSEBDockerrunVersion": "1",
-  "Volumes": [],
   "Image": {
     "Name": "michaelmerrill/snapflix:latest",
-    "Update": "false"
+    "Update": "true"
   },
   "Ports": [
     {
       "ContainerPort": "3000"
+    },
+    {
+      "ContainerPort": "3000"
     }
-  ],
-  "Logging": "/var/eb_log"
+  ]
 }

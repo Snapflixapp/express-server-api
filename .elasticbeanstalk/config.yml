@@ -1,9 +1,9 @@
 branch-defaults:
   master:
-    environment: express-server-api-dev
+    environment: snapflix
     group_suffix: null
 global:
-  application_name: express-server-api
+  application_name: api.snapflix.com
   branch: null
   default_ec2_keyname: null
   default_platform: Docker 1.12.6

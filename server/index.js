@@ -1,14 +1,10 @@
 'use strict'
 
-// https://www.npmjs.com/package/dotenv
-require('dotenv').config()
-
+const config = require('./config').get(process.env.NODE_ENV)
 const express = require('express')
 const app = express()
 const routes = require('./routes')
 const { writeError } = require('./utils')
-
-const port = process.env.PORT || 3000
 
 require('./middleware')(app)
 
@@ -27,8 +23,8 @@ app.use((err, req, res, next) => {
   }
 })
 
-app.listen(port, () => {
-  console.log('Listening on port ' + port)
+app.listen(config.port, () => {
+  console.log('Listening on port ' + config.port)
 })
 
 module.exports = app

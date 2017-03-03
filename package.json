@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "db:seed": "node sampleData",
     "start": "NODE_ENV=development nodemon server",
     "start:prod": "NODE_ENV=production node server",
     "test": "standard"

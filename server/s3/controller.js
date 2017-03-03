@@ -1,7 +1,7 @@
 'use strict'
 
-const aws = require('aws-sdk')
-const s3 = new aws.S3()
+const config = require('../config').get(process.env.NODE_ENV)
+const s3 = new config.aws.S3()
 const db = require('../db')
 const uuid = require('uuid')
 const { store } = require('./model')
@@ -9,12 +9,6 @@ const { writeResponse } = require('../utils')
 
 const inputBucket = 'snapflix-videos-raw'
 const ACL = 'public-read'
-
-aws.config.update({
-  'accessKeyId': process.env.AWS_ACCESS_KEY_ID,
-  'secretAccessKey': process.env.AWS_SECRET_ACCESS_KEY,
-  'region': 'us-west-1'
-})
 
 // Creates a signed url from AWS S3 for video
 // Naming format: user.id/video.id.ext

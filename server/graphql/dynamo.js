@@ -1,26 +1,33 @@
+const config = require('../config').get(process.env.NODE_ENV)
 const Promise = require('bluebird')
-const AWS = require('aws-sdk')
+const uuid = require('uuid')
+const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
 
-const config = {
-  'accessKeyId': process.env.AWS_ACCESS_KEY_ID,
-  'secretAccessKey': process.env.AWS_SECRET_ACCESS_KEY,
-  'region': 'us-west-1',
-  'endpoint': 'http://localhost:8000'
-}
+const docClient = new config.aws.DynamoDB.DocumentClient()
+const videosTable = config.project + '-videos-' + config.env
+const usersTable = config.project + '-users-' + config.env
+// const commentsTable = config.project + '-comments-' + config.env
 
-const docClient = new AWS.DynamoDB.DocumentClient(config)
-const stage = 'development'
-const projectName = 'snapflix'
-const videosTable = projectName + '-videos-' + stage
-const usersTable = projectName + '-users-' + stage
-const commentsTable = projectName + '-comments-' + stage
-
-exports.createVideo = () => {
+exports.createVideo = (title) => {
   return new Promise((resolve, reject) => {
+    const id = uuid.v4()
+
+    const video = {
+      id: id,
+      title: title,
+      url: 'https://s3-us-west-1.amazonaws.com/snapflix-videos-raw/' + id
+    }
+
     const params = {
       TableName: videosTable,
       Item: video
     }
+
+    docClient.put(params, (err, data) => {
+      if (err) return reject(err)
+      return resolve(video)
+    })
   })
 }
 
@@ -40,4 +47,56 @@ exports.getVideos = () => {
       return resolve(data['Items'])
     })
   })
+}
+
+exports.createUser = (username, password) => {
+  return new Promise((resolve, reject) => {
+    const user = {
+      username: username,
+      password: hashPassword(username, password)
+    }
+
+    const params = {
+      TableName: usersTable,
+      Item: user,
+      ConditionExpression: 'attribute_not_exists(username)'
+    }
+
+    docClient(params, (err, data) => {
+      if (err) return reject(err)
+
+      let token = signToken(data['Item'])
+      return resolve(token)
+    })
+  })
+}
+
+exports.getUser = (username) => {
+  return new Promise((resolve, reject) => {
+    const params = {
+      TableName: usersTable,
+      Key: {
+        username: username
+      },
+      AttributesToGet: [
+        'username'
+      ]
+    }
+
+    docClient.get(params, (err, data) => {
+      if (err) return reject(err)
+      return resolve(data['Item'])
+    })
+  })
+}
+
+const hashPassword = (username, password) => {
+  let s = username + ':' + password
+  return crypto.createHash('sha256').update(s).digest('hex')
+}
+
+const signToken = (user) => {
+  return jwt.sign({
+    username: user.username
+  }, process.env.JWT_SECRET, { expiresIn: '1h' })
 }

@@ -4,7 +4,6 @@ const jwt = require('express-jwt')
 const cors = require('cors')
 
 module.exports = (app) => {
-  // enable CORS
   app.use('*', cors())
 
   // https://github.com/expressjs/body-parser

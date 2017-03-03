@@ -15,99 +15,23 @@ const videosTable = projectName + '-videos-' + stage
 const usersTable = projectName + '-users-' + stage
 const commentsTable = projectName + '-comments-' + stage
 
-exports.createVideo = (video) => {
+exports.createVideo = () => {
   return new Promise((resolve, reject) => {
-    var params = {
+    const params = {
       TableName: videosTable,
       Item: video
     }
-
-    docClient.put(params, (err, data) => {
-      if (err) return reject(err)
-      return resolve(video)
-    })
   })
 }
 
 exports.getVideos = () => {
   return new Promise((resolve, reject) => {
-    var params = {
+    const params = {
       TableName: videosTable,
       AttributesToGet: [
         'id',
         'title',
-        'url',
-        'user'
-      ]
-    }
-
-    docClient.scan(params, (err, data) => {
-      if (err) return reject(err)
-      return resolve(data['Items'])
-    })
-  })
-}
-
-exports.createUser = (user) => {
-  return new Promise((resolve, reject) => {
-    var params = {
-      TableName: usersTable,
-      Item: user
-    }
-
-    docClient.put(params, (err, data) => {
-      if (err) return reject(err)
-      return resolve(user)
-    })
-  })
-}
-
-exports.getUser = (id) => {
-  return new Promise((resolve, reject) => {
-    var params = {
-      TableName: usersTable,
-      Key: {
-        id: id
-      },
-      AttributesToGet: [
-        'id',
-        'username',
-        'password'
-      ]
-    }
-
-    docClient.get(params, (err, data) => {
-      if (err) return reject(err)
-      return resolve(data['Item'])
-    })
-  })
-}
-
-exports.getUsers = () => {
-  return new Promise((resolve, reject) => {
-    var params = {
-      TableName: usersTable,
-      AttributesToGet: [
-        'id',
-        'username'
-      ]
-    }
-
-    docClient.scan(params, (err, data) => {
-      if (err) return reject(err)
-      return resolve(data['Items'])
-    })
-  })
-}
-
-exports.getComments = () => {
-  return new Promise((resolve, reject) => {
-    var params = {
-      TableName: commentsTable,
-      AttributesToGet: [
-        'id',
-        'content',
-        'user'
+        'url'
       ]
     }
 

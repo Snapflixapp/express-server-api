@@ -3,122 +3,53 @@ const {
   GraphQLSchema,
   GraphQLList,
   GraphQLString,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLID
 } = require('graphql')
 
-const { getVideos, getUser, getUsers, getComments, createVideo, createUser } = require('./dynamo')
-
-const User = new GraphQLObjectType({
-  name: 'User',
-  description: 'User of the video',
-  fields: () => ({
-    id: {type: GraphQLString},
-    username: {type: GraphQLString}
-  })
-})
-
-const Comment = new GraphQLObjectType({
-  name: 'Comment',
-  description: 'Comment on the video',
-  fields: () => ({
-    id: {type: GraphQLString},
-    content: {type: GraphQLString},
-    user: {
-      type: User,
-      resolve: function ({user}) {
-        return getUser(user)
-      }
-    }
-  })
-})
+const { getVideos } = require('./dynamo')
 
 const Video = new GraphQLObjectType({
   name: 'Video',
-  description: 'Video content',
+  description: 'snapflix video',
   fields: () => ({
-    id: {type: GraphQLString},
+    id: {type: GraphQLID},
     title: {type: GraphQLString},
-    url: {type: GraphQLString},
-    user: {
-      type: User,
-      resolve: function ({user}) {
-        return getUser(user)
-      }
-    },
-    comments: {
-      type: new GraphQLList(Comment),
-      resolve: function (video) {
-        return getComments()
-      }
-    }
+    url: {type: GraphQLString}
   })
 })
 
 const Query = new GraphQLObjectType({
   name: 'Schema',
-  description: 'Root Schema',
+  description: 'Root schema',
   fields: () => ({
     videos: {
       type: new GraphQLList(Video),
-      description: 'List of videos',
-      resolve: function (source, {category}) {
+      description: 'List of all videos',
+      resolve: function (source) {
         return getVideos()
-      }
-    },
-    users: {
-      type: new GraphQLList(User),
-      description: 'List of users',
-      resolve: function () {
-        return getUsers()
-      }
-    },
-    user: {
-      type: User,
-      description: 'Get User by id',
-      args: {
-        id: {type: new GraphQLNonNull(GraphQLString)}
-      },
-      resolve: function (source, {id}) {
-        return getUser(id)
       }
     }
   })
 })
 
-const Mutuation = new GraphQLObjectType({
+const Mutation = new GraphQLObjectType({
   name: 'Mutations',
   fields: {
     createVideo: {
       type: Video,
-      description: 'Create video',
       args: {
-        id: {type: new GraphQLNonNull(GraphQLString)},
-        title: {type: new GraphQLNonNull(GraphQLString)},
-        url: {type: new GraphQLNonNull(GraphQLString)},
-        user: {type: new GraphQLNonNull(GraphQLString), description: 'Id of the user'}
+        title: {type: new GraphQLNonNull(GraphQLString)}
       },
-      resolve: function (source, args) {
-        return createVideo(args)
-      }
-    },
-    createUser: {
-      type: User,
-      description: 'Create user',
-      args: {
-        id: {type: new GraphQLNonNull(GraphQLString)},
-        username: {type: new GraphQLNonNull(GraphQLString)},
-        password: {type: new GraphQLNonNull(GraphQLString)}
-      },
-      resolve: function (source, args) {
-        return createUser(args)
+      resolve: function (source, {title}, context) {
+        return createVideo(title)
       }
     }
   }
 })
 
 const Schema = new GraphQLSchema({
-  query: Query,
-  mutation: Mutuation
+  query: Query
 })
 
 module.exports = Schema

@@ -93,7 +93,7 @@ const Mutuation = new GraphQLObjectType({
       description: 'Create video',
       args: {
         id: {type: new GraphQLNonNull(GraphQLString)},
-        title: {type: new GraphQLNonNull(10, 30)},
+        title: {type: new GraphQLNonNull(GraphQLString)},
         url: {type: new GraphQLNonNull(GraphQLString)},
         user: {type: new GraphQLNonNull(GraphQLString), description: 'Id of the user'}
       },
@@ -106,7 +106,7 @@ const Mutuation = new GraphQLObjectType({
       description: 'Create user',
       args: {
         id: {type: new GraphQLNonNull(GraphQLString)},
-        username: {type: new GraphQLNonNull(4, 30)},
+        username: {type: new GraphQLNonNull(GraphQLString)},
         password: {type: new GraphQLNonNull(GraphQLString)}
       },
       resolve: function (source, args) {

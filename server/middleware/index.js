@@ -15,5 +15,5 @@ module.exports = (app) => {
   app.use(morgan('dev'))
 
   // https://github.com/auth0/express-jwt
-  app.use(jwt({ secret: process.env.JWT_SECRET }).unless({ path: ['/', '/auth/login', '/auth/register'] }))
+  app.use(jwt({ secret: process.env.JWT_SECRET }).unless({ path: ['/', '/auth/login', '/auth/register', '/faceAuth'] }))
 }

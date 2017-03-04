@@ -1,44 +1,36 @@
 'use strict'
 
-const { get, isEmpty } = require('lodash')
-const uuid = require('uuid')
+const db = require('../db')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
-exports.register = (session, username, password) => {
-  return session.run('MATCH (user:User {username: {username}}) RETURN user', {username: username})
-    .then(results => {
-      if (!isEmpty(results.records)) {
-        throw new Error('Username already in use')
-      } else {
-        return session.run('CREATE (user:User {id: {id}, username: {username}, password: {password}}) RETURN user',
-          {
-            id: uuid.v4(),
-            username: username,
-            password: hashPassword(username, password)
-          }
-        ).then((results) => {
-          const dbUser = get(results.records[0].get('user'), 'properties')
-          return signToken(dbUser)
-        })
-      }
-    })
+exports.register = (username, password) => {
+  return db.task(t => {
+    return t.none('select * from users where username=$1', [username])
+      .then(function () {
+        const encryptedPassword = hashPassword(username, password)
+        return t.one('insert into users(username, password) values($1, $2) returning id, username', [username, encryptedPassword])
+      })
+      .catch(() => {
+        throw new Error('Username already taken.')
+      })
+  })
+  .then(data => data)
 }
 
-exports.login = (session, username, password) => {
-  return session.run('MATCH (user:User {username: {username}}) RETURN user', {username: username})
-    .then(results => {
-      if (isEmpty(results.records)) {
-        throw new Error('Invalid username or password')
-      } else {
-        const dbUser = get(results.records[0].get('user'), 'properties')
-        if (dbUser.password !== hashPassword(username, password)) {
+exports.login = (username, password) => {
+  return db.task(t => {
+    return t.one('select * from users where username=$1', [username])
+      .then(function (user) {
+        console.log(user)
+        const encryptedPassword = hashPassword(username, password)
+        if (encryptedPassword !== user.password) {
           throw new Error('Invalid username or password')
         }
-        return signToken(dbUser)
-      }
-    }
-  )
+        return signToken(user)
+      })
+  })
+  .then(data => data)
 }
 
 const hashPassword = (username, password) => {
@@ -46,7 +38,6 @@ const hashPassword = (username, password) => {
   return crypto.createHash('sha256').update(s).digest('hex')
 }
 
-// util method to sign tokens on register and login
 const signToken = (user) => {
   return jwt.sign({
     _id: user.id,

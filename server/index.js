@@ -8,12 +8,12 @@ const { writeError } = require('./utils')
 
 require('./middleware')(app)
 
+app.use(routes)
+
 app.get('/', (req, res) => {
   // res.redirect(301, 'https://snapflixapp.com')
   res.send('Hello, World!')
 })
-
-app.use(routes)
 
 app.use((err, req, res, next) => {
   if (err) {

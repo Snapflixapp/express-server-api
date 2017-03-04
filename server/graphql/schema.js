@@ -16,7 +16,8 @@ const { getVideos,
   getCommentsByUserId,
   createVideo,
   createUser,
-  createComment
+  createComment,
+  getSignedUrl
 } = require('./db')
 
 const Video = new GraphQLObjectType({
@@ -36,6 +37,12 @@ const Video = new GraphQLObjectType({
       type: new GraphQLList(Comment),
       resolve: function (video) {
         return getCommentsByVideoId(video.id)
+      }
+    },
+    signedUrl: {
+      type: GraphQLString,
+      resolve: function (video, args, context) {
+        return getSignedUrl(video, context)
       }
     }
   })
@@ -126,10 +133,11 @@ const Mutation = new GraphQLObjectType({
       type: Video,
       args: {
         title: {type: new GraphQLNonNull(GraphQLString)},
-        user_id: {type: new GraphQLNonNull(GraphQLString)}
+        user_id: {type: new GraphQLNonNull(GraphQLString)},
+        username: {type: new GraphQLNonNull(GraphQLString)}
       },
-      resolve: function (source, {title, user_id}, context) {
-        return createVideo(title, user_id, context)
+      resolve: function (source, args, context) {
+        return createVideo(args, context)
       }
     },
     createUser: {

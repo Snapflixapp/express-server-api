@@ -1,7 +1,16 @@
 const db = require('../db')
-const uuid = require('uuid')
-const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
+const AWS = require('aws-sdk')
+const Promise = require('bluebird')
+const S3 = new Promise.promisifyAll(new AWS.S3())
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: 'us-west-1'
+})
+
+const inputBucket = 'snapflix-videos-raw'
+const ACL = 'public-read'
 
 exports.getVideos = () => {
   return db.many('select * from videos')
@@ -51,28 +60,29 @@ exports.createComment = (content, userId, videoId) => {
     .catch(error => error)
 }
 
-exports.createVideo = (title, userId) => {
-  return db.one('insert into videos(title, user_id) values($1, $2) returning *', [title, userId])
-    .then(data => data)
+exports.createVideo = (args, context) => {
+  return db.one('insert into videos(title, user_id) values($1, $2) returning *', [args.title, args.user_id])
+    .then(video => video)
     .catch(error => error)
 }
 
-exports.createUser = (username, password) => {
-  return db.one('insert into users(username, password) values($1, $2) returning id, username', [username, password])
-    .then(data => {
-      return data
-    })
-    .catch(error => error)
+exports.getSignedUrl = (video, context) => {
+  const contentType = 'video/webm'
+  const ext = findType(contentType)
+  const username = context.username || 'jmina'
+  const filekey = `${username}/${video.id}.${ext}`
+
+  return S3.getSignedUrlAsync('putObject', {
+    Bucket: inputBucket,
+    Key: filekey,
+    ContentType: contentType,
+    ACL: ACL
+  })
+  .then(data => data)
+  .catch(error => error)
 }
 
-const hashPassword = (username, password) => {
-  let s = username + ':' + password
-  return crypto.createHash('sha256').update(s).digest('hex')
-}
-
-const signToken = (user) => {
-  return jwt.sign({
-    id: user.id,
-    username: user.username
-  }, process.env.JWT_SECRET, { expiresIn: '1h' })
+const findType = (string) => {
+  let n = string.lastIndexOf('/')
+  return string.substring(n + 1)
 }

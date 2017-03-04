@@ -23,10 +23,10 @@ CREATE TABLE comments (
   video_id INTEGER REFERENCES videos
 );
 
-INSERT INTO users(username, password) VALUES('jmina', 'password');
-INSERT INTO users(username, password) VALUES('michael', 'password');
-INSERT INTO users(username, password) VALUES('maurice', 'password');
-INSERT INTO users(username, password) VALUES('johnny', 'password');
+INSERT INTO users(username, password) VALUES('jmina', 'f724385e404095441c3ba8bf245b6fa379ebfda063778b5d25c1e719705bc566');
+INSERT INTO users(username, password) VALUES('michael', 'ead12c3f61913549686bbd1b338f1befe431ab12c02455f396da6093b4d5960d');
+INSERT INTO users(username, password) VALUES('maurice', '2e87a3867a400d9331f43f768b6c79460a18149426da9a300d42d0f208199bd1');
+INSERT INTO users(username, password) VALUES('johnny', '8077cb1df5e3c0f5c1ba144a61a2d0ce70ff7eef79858e50898994afdfcd3bb7');
 INSERT INTO videos(user_id, title, url)
 VALUES('1', 'My Cup of Tea', 'https://youtu.be/CMjKw2yIOq0');
 INSERT INTO videos(user_id, title, url)

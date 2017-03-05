@@ -1,10 +1,10 @@
 'use strict'
-
-const config = require('./config').get(process.env.NODE_ENV)
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const routes = require('./routes')
 const { writeError } = require('./utils')
+const port = process.env.PORT || 3000
 
 require('./middleware')(app)
 
@@ -23,8 +23,8 @@ app.use((err, req, res, next) => {
   }
 })
 
-app.listen(config.port, () => {
-  console.log('Listening on port ' + config.port)
+app.listen(port, () => {
+  console.log('Listening on port ' + port)
 })
 
 module.exports = app

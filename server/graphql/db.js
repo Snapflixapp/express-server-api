@@ -4,8 +4,8 @@ const Promise = require('bluebird')
 const S3 = new Promise.promisifyAll(new AWS.S3())
 
 AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  // accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  // secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: 'us-west-1'
 })
 
@@ -60,17 +60,16 @@ exports.createComment = (content, userId, videoId) => {
     .catch(error => error)
 }
 
-exports.createVideo = (title, id, user) => {
+exports.createVideo = (title, id, {user}) => {
   return db.one('insert into videos(title, user_id) values($1, $2) returning *', [title, id || user._id])
     .then(video => video)
     .catch(error => error)
 }
 
-exports.getSignedUrl = (video, context) => {
+exports.getSignedUrl = (video, {user}) => {
   const contentType = 'video/webm'
   const ext = findType(contentType)
-  const username = context.username || 'jmina'
-  const filekey = `${username}/${video.id}.${ext}`
+  const filekey = `${user.username}/${video.id}.${ext}`
 
   return S3.getSignedUrlAsync('putObject', {
     Bucket: inputBucket,

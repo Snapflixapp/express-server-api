@@ -4,8 +4,9 @@
   "description": "",
   "scripts": {
     "db:seed": "psql -f database.sql",
-    "start": "NODE_ENV=development nodemon server",
-    "start:prod": "NODE_ENV=production node server",
+    "start": "NODE_ENV=development nodemon lib/index.js --exec babel-node",
+    "build": "NODE_ENV=production babel lib -d dist",
+    "serve": "NODE_ENV=production node dist/index.js",
     "test": "standard"
   },
   "repository": {
@@ -37,6 +38,9 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
     "nodemon": "^1.11.0",
     "standard": "^8.6.0"
   }

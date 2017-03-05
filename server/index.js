@@ -4,6 +4,7 @@ const express = require('express')
 const app = express()
 const routes = require('./routes')
 const { writeError } = require('./utils')
+
 const port = process.env.PORT || 3000
 
 require('./middleware')(app)

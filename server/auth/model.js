@@ -1,8 +1,18 @@
 'use strict'
 
 const db = require('../db')
+const uuid = require('uuid')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+
+// TODO: This is a security hole... fix or remove.
+exports.getToken = (username) => {
+  const user = {
+    _id: uuid.v4(),
+    username: username
+  }
+  return signToken(user)
+}
 
 exports.register = (username, password) => {
   return db.task(t => {

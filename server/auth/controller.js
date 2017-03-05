@@ -1,7 +1,7 @@
 'use strict'
 
 const { get } = require('lodash')
-const { register, login } = require('./model')
+const { register, login, getToken } = require('./model')
 const { writeResponse, writeError } = require('../utils')
 
 exports.params = (req, res, next) => {
@@ -24,6 +24,12 @@ exports.params = (req, res, next) => {
   req.username = username
   req.password = password
   next()
+}
+
+// TODO: This is a security hole... fix or remove.
+exports.faceAuth = (req, res, next) => {
+  let token = getToken(req.body.username)
+  writeResponse(res, { token: token }, 201)
 }
 
 exports.register = (req, res, next) => {

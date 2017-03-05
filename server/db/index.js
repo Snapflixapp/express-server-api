@@ -1,3 +1,4 @@
+const config = require('../config').get(process.env.NODE_ENV)
 const promise = require('bluebird')
 
 const options = {
@@ -5,8 +6,7 @@ const options = {
 }
 
 const pgp = require('pg-promise')(options)
-// const connection = process.env.RDS_CONNECTION_URL || 'postgres://localhost:5432/snapflix'
-const connection = 'postgres://localhost:5432/snapflix'
+const connection = config.database
 const db = pgp(connection)
 
 module.exports = db

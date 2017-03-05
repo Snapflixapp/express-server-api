@@ -1,21 +1,15 @@
 const db = require('../db')
-const AWS = require('aws-sdk')
+const config = require('../config').get(process.env.NODE_ENV)
 const Promise = require('bluebird')
-const S3 = new Promise.promisifyAll(new AWS.S3())
-
-AWS.config.update({
-  // accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  // secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: 'us-west-1'
-})
+const S3 = new Promise.promisifyAll(new config.AWS.S3())
 
 const inputBucket = 'snapflix-videos-raw'
 const ACL = 'public-read'
 
 exports.getVideos = () => {
   return db.many('select * from videos')
-  .then(data => data)
-  .catch(error => error)
+    .then(data => data)
+    .catch(error => error)
 }
 
 exports.getVideosByUserId = (userId) => {

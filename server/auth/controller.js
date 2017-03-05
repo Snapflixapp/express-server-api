@@ -8,6 +8,7 @@ exports.params = (req, res, next) => {
   let username = get(req.body, 'username')
   let password = get(req.body, 'password')
 
+  // TODO: Improve error response on client
   if (!username || !password) {
     return writeError(res, new Error('Must provide a username and password'), 400)
   }

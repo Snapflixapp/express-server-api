@@ -133,11 +133,10 @@ const Mutation = new GraphQLObjectType({
       type: Video,
       args: {
         title: {type: new GraphQLNonNull(GraphQLString)},
-        user_id: {type: new GraphQLNonNull(GraphQLString)},
-        username: {type: new GraphQLNonNull(GraphQLString)}
+        user_id: {type: GraphQLString}
       },
-      resolve: function (source, args, context) {
-        return createVideo(args, context)
+      resolve: function (source, {title, user_id}, context) {
+        return createVideo(title, user_id, context)
       }
     },
     createUser: {

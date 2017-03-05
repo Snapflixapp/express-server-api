@@ -60,8 +60,8 @@ exports.createComment = (content, userId, videoId) => {
     .catch(error => error)
 }
 
-exports.createVideo = (args, context) => {
-  return db.one('insert into videos(title, user_id) values($1, $2) returning *', [args.title, args.user_id])
+exports.createVideo = (title, id, user) => {
+  return db.one('insert into videos(title, user_id) values($1, $2) returning *', [title, id || user._id])
     .then(video => video)
     .catch(error => error)
 }

@@ -15,14 +15,13 @@ exports.register = (username, password) => {
         throw new Error('Username already taken.')
       })
   })
-  .then(data => data)
+  .then(data => signToken(data))
 }
 
 exports.login = (username, password) => {
   return db.task(t => {
     return t.one('select * from users where username=$1', [username])
       .then(function (user) {
-        console.log(user)
         const encryptedPassword = hashPassword(username, password)
         if (encryptedPassword !== user.password) {
           throw new Error('Invalid username or password')

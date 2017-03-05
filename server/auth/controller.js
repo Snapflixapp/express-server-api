@@ -26,6 +26,14 @@ exports.params = (req, res, next) => {
   next()
 }
 
+// exports.faceSign = (req, res, next) => {
+//   console.log('backend face signin ===>', res)
+//   console.log(faceSignIn('johnny'))
+//   faceSignIn('johnny')
+//   .then(token => writeResponse(res, { token: token }, 200))
+//   .catch(next)
+// }
+
 exports.register = (req, res, next) => {
   register(db.getSession(req), req.username, req.password)
     .then(token => writeResponse(res, { token: token }, 201))

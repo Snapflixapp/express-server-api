@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "db:seed": "psql -f database.sql",
+    "db:create": "psql createdb snapflix",
     "start": "NODE_ENV=development nodemon lib/index.js --exec babel-node",
     "build": "NODE_ENV=production babel lib -d dist",
     "serve": "NODE_ENV=production node dist/index.js",

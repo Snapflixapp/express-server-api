@@ -15,5 +15,5 @@ aws elasticbeanstalk create-application-version --application-name api.snapflix.
   --region us-west-1
 
 # Update Elastic Beanstalk environment to new version
-aws elasticbeanstalk update-environment --environment-name snapflix-prod \
+aws elasticbeanstalk update-environment --environment-name snapflix-dev \
     --version-label $SHA1 --region us-west-1

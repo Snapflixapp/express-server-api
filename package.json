@@ -5,8 +5,8 @@
   "scripts": {
     "db:seed": "psql -f database.sql",
     "start": "NODE_ENV=development nodemon lib/index.js --exec babel-node",
-    "build": "babel lib -d dist",
-    "serve": "node dist/index.js",
+    "build": "NODE_ENV=production babel lib -d dist",
+    "serve": "NODE_ENV=production node dist/index.js",
     "test": "standard"
   },
   "repository": {
